@@ -206,4 +206,16 @@ class CalculatorServiceTest {
         //when & than
         assertThrows(IllegalArgumentException.class, () -> calculator.divide(num1, num2));
     }
+
+    @Test
+    @DisplayName("Should not terminate non-terminating division ")
+    void nonTerminatingDivision() {
+
+        //given
+        BigDecimal num1 = BigDecimal.valueOf(1);
+        BigDecimal num2 = BigDecimal.valueOf(3);
+
+        //when & than
+        assertThrows(IllegalArgumentException.class, () -> calculator.divide(num1, num2));
+    }
 }
