@@ -1,4 +1,4 @@
-package com.flechow.webcalculator.controler;
+package com.flechow.webcalculator.controler.calculator;
 
 import com.flechow.webcalculator.model.Input;
 import org.springframework.web.bind.annotation.PostMapping;

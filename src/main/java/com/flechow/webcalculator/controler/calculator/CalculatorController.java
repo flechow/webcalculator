@@ -1,4 +1,4 @@
-package com.flechow.webcalculator.controler;
+package com.flechow.webcalculator.controler.calculator;
 
 import com.flechow.webcalculator.model.Input;
 import com.flechow.webcalculator.service.CalculatorService;

@@ -1,8 +1,10 @@
 package com.flechow.webcalculator.service;
 
+import com.flechow.webcalculator.repository.OperationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.math.BigDecimal;
 
@@ -13,9 +15,12 @@ class CalculatorServiceTest {
 
     private CalculatorService calculator;
 
+    @Mock
+    OperationRepository operationRepository;
+
     @BeforeEach
     public void setUp() {
-        calculator = new CalculatorService();
+        calculator = new CalculatorService(operationRepository);
     }
 
     @Test
