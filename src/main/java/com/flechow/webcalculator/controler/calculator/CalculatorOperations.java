@@ -1,6 +1,6 @@
 package com.flechow.webcalculator.controler.calculator;
 
-import com.flechow.webcalculator.model.Input;
+import com.flechow.webcalculator.model.InputData;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,15 +12,15 @@ import java.math.BigDecimal;
 public interface CalculatorOperations {
 
     @PostMapping("add")
-    BigDecimal add(@Valid @RequestBody Input input);
+    BigDecimal add(@Valid @RequestBody InputData inputData);
 
     @PostMapping("subtract")
-    BigDecimal subtract(@Valid @RequestBody Input input);
+    BigDecimal subtract(@Valid @RequestBody InputData inputData);
 
     @PostMapping("multiply")
-    BigDecimal multiply(@Valid @RequestBody Input input);
+    BigDecimal multiply(@Valid @RequestBody InputData inputData);
 
     @PostMapping("divide")
-    BigDecimal divide(@Valid @RequestBody Input input);
+    BigDecimal divide(@Valid @RequestBody InputData inputData);
 
 }

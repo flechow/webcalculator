@@ -3,16 +3,15 @@ package com.flechow.webcalculator.service;
 import com.flechow.webcalculator.enums.ArithmeticOperation;
 import com.flechow.webcalculator.model.Operation;
 import com.flechow.webcalculator.repository.OperationRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.flechow.webcalculator.enums.ArithmeticOperation.*;
 
-@Slf4j
 @Service
 public final class CalculatorService {
 
@@ -22,41 +21,43 @@ public final class CalculatorService {
         this.operationRepository = operationRepository;
     }
 
-    public BigDecimal add(final BigDecimal addend, final BigDecimal augend) {
-        BigDecimal result = addend.add(augend);
-        Operation operation = createRequest(addend, augend, ADD, result);
+    public BigDecimal add(final List<BigDecimal> numbers) {
+        BigDecimal result = numbers.stream().reduce(BigDecimal::add).get();
+        Operation operation = createOperation(ADD, result);
         operationRepository.save(operation);
         return result;
     }
 
-    public BigDecimal subtract(final BigDecimal minuend, final BigDecimal subtrahend) {
-        BigDecimal result =  minuend.subtract(subtrahend);
-        Operation operation = createRequest(minuend, subtrahend, SUBTRACT, result);
+    public BigDecimal subtract(final List<BigDecimal> numbers) {
+        BigDecimal result = numbers.stream().reduce(BigDecimal::subtract).get();
+        Operation operation = createOperation(SUBTRACT, result);
         operationRepository.save(operation);
         return result;
     }
 
-    public BigDecimal multiply(final BigDecimal multiplier, final BigDecimal multiplicand) {
-        BigDecimal result =  multiplier.multiply(multiplicand);
-        Operation operation = createRequest(multiplier, multiplicand, MULTIPLY, result);
+    public BigDecimal multiply(final List<BigDecimal> numbers) {
+        BigDecimal result = numbers.stream().reduce(BigDecimal::multiply).get();
+        Operation operation = createOperation(MULTIPLY, result);
         operationRepository.save(operation);
         return result;
     }
 
-    public BigDecimal divide(final BigDecimal dividend, final BigDecimal divisor) {
-        if (divisor.compareTo(BigDecimal.valueOf(0)) == 0) {
+    public BigDecimal divide(final List<BigDecimal> numbers) {
+        if (containsEqualToZero(numbers)) {
             throw new IllegalArgumentException("Cannot divide by 0");
         }
-            BigDecimal result =  dividend.divide(divisor, 15, RoundingMode.CEILING);
-            Operation operation = createRequest(dividend, divisor, DIVIDE, result);
-            operationRepository.save(operation);
-            return result;
+        BigDecimal result = numbers.stream().reduce((dividend, divisor) -> dividend.divide(divisor, 15, RoundingMode.CEILING)).get();
+        Operation operation = createOperation(DIVIDE, result);
+        operationRepository.save(operation);
+        return result;
     }
 
-    private Operation createRequest(BigDecimal num1, BigDecimal num2, ArithmeticOperation operation, BigDecimal result) {
+    private boolean containsEqualToZero(List<BigDecimal> numbers) {
+        return numbers.stream().anyMatch(number -> number.compareTo(BigDecimal.ZERO) == 0);
+    }
+
+    private Operation createOperation(ArithmeticOperation operation, BigDecimal result) {
         return Operation.builder()
-                .num1(num1)
-                .num2(num2)
                 .name(operation.getName())
                 .result(result)
                 .timestamp(LocalDateTime.now())

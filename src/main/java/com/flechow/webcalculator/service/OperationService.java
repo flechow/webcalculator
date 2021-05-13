@@ -3,12 +3,12 @@ package com.flechow.webcalculator.service;
 import com.flechow.webcalculator.enums.ArithmeticOperation;
 import com.flechow.webcalculator.model.Operation;
 import com.flechow.webcalculator.repository.OperationRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -29,9 +29,8 @@ public class OperationService {
     }
 
     public BigDecimal getSumOfLast10Requests() {
-        return operationRepository.findAll()
+        return operationRepository.findAll(Sort.by(Sort.Direction.DESC, "timestamp"))
                 .stream()
-                .sorted(Comparator.comparing(Operation::getTimestamp).reversed())
                 .limit(10)
                 .map(Operation::getResult)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -39,9 +38,9 @@ public class OperationService {
     }
 
     public Map<String, Map<String, BigDecimal>> getAverages() {
-        return Map.of("Last minute", getAverageRequestsPerSecondLastMinute(),
-                "Last hour", getAverageRequestsPerSecondLastHour(),
-                "Last day", getAverageRequestsPerSecondLastDay());
+        return Map.of("Average quantity of requests per second during last minute", getAverageRequestsPerSecondLastMinute(),
+                "Average quantity of requests per second during last hour", getAverageRequestsPerSecondLastHour(),
+                "Average quantity of requests per second during last day", getAverageRequestsPerSecondLastDay());
     }
 
     public Map<String, BigDecimal> getAverageRequestsPerSecondLastMinute() {

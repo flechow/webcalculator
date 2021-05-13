@@ -10,6 +10,5 @@ import java.util.stream.Stream;
 @Repository
 public interface OperationRepository extends JpaRepository<Operation, Long> {
 
-
     Stream<Operation> findAllByTimestampAfter(LocalDateTime timestamp);
 }

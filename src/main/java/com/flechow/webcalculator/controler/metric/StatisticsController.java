@@ -13,12 +13,12 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("metrics/")
-public class MetricController {
+@RequestMapping("/")
+public class StatisticsController {
 
     private final OperationService operationService;
 
-    MetricController(OperationService operationService){
+    StatisticsController(OperationService operationService){
         this.operationService = operationService;
     }
 
@@ -28,7 +28,7 @@ public class MetricController {
         return operationService.getSumOfLast10Requests();
     }
 
-    @GetMapping(value = "stats")
+    @GetMapping(value = "statistic")
     public ResponseEntity<Map<String, Map<String, BigDecimal>>> getAverages(){
         log.info("Stats endpoint called");
         return new ResponseEntity<>(operationService.getAverages(), HttpStatus.OK);

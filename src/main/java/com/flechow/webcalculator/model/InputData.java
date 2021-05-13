@@ -3,16 +3,15 @@ package com.flechow.webcalculator.model;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
-public final class Input {
+public final class InputData {
 
     @NotNull
-    private BigDecimal decimalOne;
-
-    @NotNull
-    private BigDecimal decimalTwo;
-
+    @Size(min = 2)
+    private List<BigDecimal> numbers;
 
 }
