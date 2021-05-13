@@ -1,5 +1,5 @@
 # webcalculator
-Webcalculator is simple calculation app. It enables addition, subtractaction, multiplication and division of numbers. Two additional endpoints allows to:
+Webcalculator is spring boot calculation app. It enables addition, subtractaction, multiplication and division of numbers through REST API. Two additional endpoints allows to:
 - monitor average number of request per second of last minute, hour and day
 - get sum of last 10 requests
 
